@@ -25,6 +25,7 @@ jobs:
       - name: Commit latest release version
         if: steps.git-check.outputs.modified == 'true'
         run: |
+          git add .drone-latest-version.txt
           git config --global user.name 'dec0dOS bot'
           git config --global user.email 'dec0dos@users.noreply.github.com'
           git commit -am "ci: new drone release version"
