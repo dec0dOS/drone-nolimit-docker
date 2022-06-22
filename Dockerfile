@@ -15,14 +15,15 @@ VOLUME /data
 RUN [ ! -e /etc/nsswitch.conf ] && echo 'hosts: files dns' > /etc/nsswitch.conf
 
 ARG TARGETPLATFORM
-RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then ARCHITECTURE=amd64; elif [ "$TARGETPLATFORM" = "linux/arm/v7" ]; then ARCHITECTURE=arm; elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then ARCHITECTURE=arm64; else ARCHITECTURE=amd64; fi
+RUN if [ "$TARGETPLATFORM" = "linux/amd64" ]; then ARCHITECTURE=amd64; elif [ "$TARGETPLATFORM" = "linux/arm/v7" ]; then ARCHITECTURE=arm; elif [ "$TARGETPLATFORM" = "linux/arm64" ]; then ARCHITECTURE=arm64; else ARCHITECTURE=amd64; fi \
+    && echo "export DRONE_RUNNER_ARCH=$ARCHITECTURE" >> /envfile
+RUN . /envfile; echo $DRONE_RUNNER_ARCH; rm /envfile
 
 ENV GODEBUG netdns=go
 ENV XDG_CACHE_HOME /data
 ENV DRONE_DATABASE_DRIVER sqlite3
 ENV DRONE_DATABASE_DATASOURCE /data/database.sqlite
 ENV DRONE_RUNNER_OS=linux
-ENV DRONE_RUNNER_ARCH=$ARCHITECTURE
 ENV DRONE_SERVER_PORT=:80
 ENV DRONE_SERVER_HOST=localhost
 ENV DRONE_DATADOG_ENABLED=false

@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Determine tag
         run: |
@@ -44,7 +44,7 @@ jobs:
           file: ./Dockerfile
           push: true
           builder: ${{ steps.buildx.outputs.name }}
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
+          # platforms: linux/amd64,linux/arm64,linux/arm/v7
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/drone:latest, ${{ secrets.DOCKERHUB_USERNAME }}/drone:${{ env.TAG }}
           build-args: |
             DRONE_VERSION=${{ env.TAG }}
