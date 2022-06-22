@@ -1,11 +1,12 @@
-FROM golang:alpine as build
+FROM --platform=$BUILDPLATFORM golang:alpine as build
 
 RUN apk add -U --no-cache ca-certificates git build-base
 RUN mkdir -p /src/drone && \
     cd /src/drone && \
     git clone https://github.com/drone/drone . && \
     git checkout -b v${DRONE_VERSION}
-RUN cd /src/drone/cmd/drone-server && go build -tags "nolimit" -ldflags "-extldflags \"-static\"" -o drone-server
+ARG TARGETOS TARGETARCH
+RUN cd /src/drone/cmd/drone-server && GOOS=$TARGETOS GOARCH=$TARGETARCH go build -tags "nolimit" -ldflags "-extldflags \"-static\"" -o drone-server
 
 FROM alpine:latest
 
