@@ -13,7 +13,7 @@ FROM alpine:latest
 EXPOSE 80 443
 VOLUME /data
 
-RUN [ ! -e /etc/nsswitch.conf ] && echo 'hosts: files dns' > /etc/nsswitch.conf
+RUN echo 'hosts: files dns' > /etc/nsswitch.conf 
 
 ARG TARGETARCH
 
