@@ -3,8 +3,7 @@ FROM --platform=$BUILDPLATFORM golang:alpine as build
 RUN apk add -U --no-cache ca-certificates git build-base
 RUN mkdir -p /src/drone && \
     cd /src/drone && \
-    git clone https://github.com/drone/drone . && \
-    git checkout -b v${DRONE_VERSION}
+    git clone --depth 1 --branch "${DRONE_VERSION}" https://github.com/harness/gitness .
 ARG TARGETOS TARGETARCH
 RUN cd /src/drone/cmd/drone-server && GOOS=$TARGETOS GOARCH=$TARGETARCH go build -tags "nolimit" -ldflags "-extldflags \"-static\"" -o drone-server
 
