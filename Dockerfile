@@ -1,6 +1,8 @@
+# syntax=docker/dockerfile:1
 FROM --platform=$BUILDPLATFORM golang:alpine as build
 
 RUN apk add -U --no-cache ca-certificates git build-base
+ARG DRONE_VERSION
 RUN mkdir -p /src/drone && \
     cd /src/drone && \
     git clone --depth 1 --branch "${DRONE_VERSION}" https://github.com/harness/gitness .
