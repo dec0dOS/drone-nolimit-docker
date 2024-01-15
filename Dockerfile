@@ -7,7 +7,7 @@ RUN mkdir -p /src/drone && \
     cd /src/drone && \
     git clone --depth 1 --branch "${DRONE_VERSION}" https://github.com/harness/gitness .
 ARG TARGETOS TARGETARCH
-RUN cd /src/drone/cmd/drone-server && GOOS=$TARGETOS GOARCH=$TARGETARCH go build -tags "nolimit" -ldflags "-extldflags \"-static\"" -o drone-server
+RUN cd /src/drone/cmd/drone-server && GOOS=$TARGETOS GOARCH=$TARGETARCH CGO_CFLAGS="-D_LARGEFILE64_SOURCE" go build -tags "nolimit" -ldflags "-extldflags \"-static\"" -o drone-server
 
 FROM alpine:latest
 
