@@ -43,4 +43,4 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/drone:latest, ${{ secrets.DOCKERHUB_USERNAME }}/drone:${{ env.TAG }}
           build-args: |
-            DRONE_VERSION=${{ env.TAG }}
+            DRONE_VERSION=$TAG
