@@ -19,7 +19,7 @@ jobs:
         run: |
           export TAG=$(cat .drone-latest-version.txt)
           echo "TAG=$TAG" >> $GITHUB_ENV
-          echo "Tag: $TAG"
+          echo "Tag: ${{ env.TAG }}"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
@@ -44,4 +44,4 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/drone:latest, ${{ secrets.DOCKERHUB_USERNAME }}/drone:${{ env.TAG }}
           build-args: |
-            DRONE_VERSION=$TAG
+            DRONE_VERSION=${{ env.TAG }}
